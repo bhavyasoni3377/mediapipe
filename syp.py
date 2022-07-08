@@ -16,7 +16,7 @@ pose = mp_pose.Pose(static_image_mode=True, min_detection_confidence=0.7, model_
 # Initializing mediapipe drawing class, useful for annotation.
 mp_drawing = mp.solutions.drawing_utils 
 
-def detectPose(image, pose, display=True):
+def detectPose(image, display=True):
     '''
     This function performs pose detection on an image.
     Args:
@@ -28,7 +28,8 @@ def detectPose(image, pose, display=True):
         output_image: The input image with the detected pose landmarks drawn.
         landmarks: A list of detected landmarks converted into their original scale.
     '''
-    
+    pose = mp_pose.Pose(static_image_mode=True, min_detection_confidence=0.7, model_complexity=2)
+
     # Create a copy of the input image.
     output_image = image.copy()
     
@@ -57,26 +58,24 @@ def detectPose(image, pose, display=True):
             # Append the landmark into the list.
             landmarks.append((int(landmark.x * width), int(landmark.y * height),
                                   (landmark.z * width)))
-            for i in range(33):
-        
-        # Display the found normalized landmarks.
-             print(f'{mp_pose.PoseLandmark(i).name}:\n{results.pose_landmarks.landmark[mp_pose.PoseLandmark(i).value]}')                 
+                             
     
     # Check if the original input image and the resultant image are specified to be displayed.
-    if display:
+        if display:
     
         # Display the original input image and the resultant image.
-        plt.figure(figsize=[22,22])
-        plt.subplot(121);plt.imshow(image[:,:,::-1]);plt.title("Original Image");plt.axis('off');
-        plt.subplot(122);plt.imshow(output_image[:,:,::-1]);plt.title("Output Image");plt.axis('off');
+                plt.figure(figsize=[22,22])
+                plt.subplot(121);plt.imshow(image[:,:,::-1]);plt.title("Original Image");plt.axis('off');
+                plt.subplot(122);plt.imshow(output_image[:,:,::-1]);plt.title("Output Image");plt.axis('off');
         
         # Also Plot the Pose landmarks in 3D.
-        mp_drawing.plot_landmarks(results.pose_world_landmarks, mp_pose.POSE_CONNECTIONS)
+                mp_drawing.plot_landmarks(results.pose_world_landmarks, mp_pose.POSE_CONNECTIONS)
         
     # Otherwise
     else:
         
         # Return the output image and the found landmarks.
+        
         return output_image, landmarks
 def calx(PoseLandmark1,PoseLandmark2) :
 
@@ -215,9 +214,7 @@ def classifyPose(landmarks, output_image, display=False):
                 # Specify the label of the pose that is Fowler pose.
                 label = 'Lithotomy'
     else :   
-        if nose_Rankel_cal<=0.0 and nose_Lankel_cal<=0.00: 
-                label = 'Trendelenburg'
-        else:      
+          
            if right_HIP_angle >89  and right_HIP_angle < 120 or left_HIP_angle > 89  and left_HIP_angle <120 :
 
                 # Specify the label of the pose that is Fowler pose.
@@ -251,7 +248,8 @@ def classifyPose(landmarks, output_image, display=False):
 
             if nose_Rankel_cal>=0 or nose_Lankel_cal >=0:  
                         label = 'Supine'
-      
+         #   if nose_Rankel_cal<=0.0 and nose_Lankel_cal<=0.00: 
+          #      label = 'Trendelenburg'
     #----------------------------------------------------------------------------------------------------------------
     #----------------------------------------------------------------------------------------------------------------
     
@@ -266,7 +264,7 @@ def classifyPose(landmarks, output_image, display=False):
     
     # Write the label on the output image. 
     cv2.putText(output_image, label, (10, 30),cv2.FONT_HERSHEY_PLAIN, 2, color, 2)
-    
+          
     # Check if the resultant image is specified to be displayed.
     if display:
     
@@ -285,22 +283,26 @@ import sys
 filename=sys.argv[1]
 print (filename)
 image=cv2.imread(filename)
-output_image, landmarks = detectPose(image, pose, display=False)
+output_image, landmarks = detectPose(image, display=True)
 if landmarks:
-           classifyPose(landmarks, output_image, display=True)
-           output_image
+          output_image1,label = classifyPose(landmarks, output_image, display=True)
+           
+           
+           
+           
 filename1 = 'savedImage.jpg'
   
 # Using cv2.imwrite() method
 # Saving the image
-#right_HIP_angle = calculateAngle(landmarks[mp_pose.PoseLandmark.RIGHT_SHOULDER.value],
- #                                         landmarks[mp_pose.PoseLandmark.RIGHT_HIP.value],
-  #                                        landmarks[mp_pose.PoseLandmark.RIGHT_KNEE.value])
-#left_HIP_angle = calculateAngle(landmarks[mp_pose.PoseLandmark.LEFT_SHOULDER.value],
- ##                                        landmarks[mp_pose.PoseLandmark.LEFT_KNEE.value])
+right_HIP_angle = calculateAngle(landmarks[mp_pose.PoseLandmark.RIGHT_SHOULDER.value],
+                                          landmarks[mp_pose.PoseLandmark.RIGHT_HIP.value],
+                                         landmarks[mp_pose.PoseLandmark.RIGHT_KNEE.value])
+left_HIP_angle = calculateAngle(landmarks[mp_pose.PoseLandmark.LEFT_SHOULDER.value],
+                                        landmarks[mp_pose.PoseLandmark.LEFT_HIP.value],
+                                        landmarks[mp_pose.PoseLandmark.LEFT_KNEE.value])
 
     # Get the angle between the right hip, knee and ankle points 
-"""right_knee_angle = calculateAngle(landmarks[mp_pose.PoseLandmark.RIGHT_HIP.value],
+right_knee_angle = calculateAngle(landmarks[mp_pose.PoseLandmark.RIGHT_HIP.value],
                                       landmarks[mp_pose.PoseLandmark.RIGHT_KNEE.value],
                                       landmarks[mp_pose.PoseLandmark.RIGHT_ANKLE.value])                                          
 left_knee_angle = calculateAngle(landmarks[mp_pose.PoseLandmark.LEFT_HIP.value],
@@ -310,20 +312,20 @@ lib_legs_ag=cal_hip_angle(landmarks[mp_pose.PoseLandmark.LEFT_HIP.value],
                                      landmarks[mp_pose.PoseLandmark.RIGHT_HIP.value])
 r_l_h= calculateAngle(landmarks[mp_pose.PoseLandmark.LEFT_KNEE.value],
                                      lib_legs_ag,
-                                     landmarks[mp_pose.PoseLandmark.RIGHT_KNEE.value])"""
+                                     landmarks[mp_pose.PoseLandmark.RIGHT_KNEE.value])
 # Get
-#print ("right_HIP_angle=",right_HIP_angle)
-#print (left_HIP_angle)
-#print ("right_knee_angle",right_knee_angle)
-#print (left_knee_angle)
-#print ("r_l_h",r_l_h)
+print ("right_HIP_angle=",right_HIP_angle)
+print (left_HIP_angle)
+print ("right_knee_angle",right_knee_angle)
+print (left_knee_angle)
+print ("r_l_h",r_l_h)
+print  (label)
 
 
-
-cv2.imwrite(filename1,output_image)
+cv2.imwrite(filename1,output_image1,label)
 # Setup Pose function for video.
 
-pose_video = mp_pose.Pose(static_image_mode=False, min_detection_confidence=0.5, model_complexity=2)
+"""pose_video = mp_pose.Pose(static_image_mode=False, min_detection_confidence=0.5, model_complexity=2)
 # Initialize the VideoCapture object to read from the webcam.
 camera_video = cv2.VideoCapture(1)
 #camera_video.set(3,1280)
@@ -376,7 +378,7 @@ while camera_video.isOpened():
         break
 
 # Release the VideoCapture object and close the windows.
-camera_video.release()
+camera_video.release()"""
 k = cv2.waitKey(1) & 0xFF
     
     # Check if 'ESC' is pressed.
