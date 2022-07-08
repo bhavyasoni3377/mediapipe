@@ -323,7 +323,7 @@ r_l_h= calculateAngle(landmarks[mp_pose.PoseLandmark.LEFT_KNEE.value],
 cv2.imwrite(filename1,output_image)
 # Setup Pose function for video.
 
-"""pose_video = mp_pose.Pose(static_image_mode=False, min_detection_confidence=0.5, model_complexity=2)
+pose_video = mp_pose.Pose(static_image_mode=False, min_detection_confidence=0.5, model_complexity=2)
 # Initialize the VideoCapture object to read from the webcam.
 camera_video = cv2.VideoCapture(1)
 #camera_video.set(3,1280)
@@ -376,7 +376,7 @@ while camera_video.isOpened():
         break
 
 # Release the VideoCapture object and close the windows.
-camera_video.release()"""
+camera_video.release()
 k = cv2.waitKey(1) & 0xFF
     
     # Check if 'ESC' is pressed.
