@@ -37,7 +37,7 @@ To run this project, you will need to add the following environment variables to
 
 ## Screenshots
 
-![Pose classification Screenshorts](file:///home/kiwi/Projects/MediaPipeApp/savedImage.jpg)
+![Pose classification Screenshorts](https://github.com/bhavyasoni3377/mediapipe/blob/main/Images/savedImage.jpg)
 
 
 ## Running Tests
