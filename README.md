@@ -36,10 +36,20 @@ To run this project, you will need to add the following environment variables to
 
 
 ## Screenshots
-#high Fowler
+High Fowler
+
+
+![Pose classification Screenshorts high Fowler ](https://github.com/bhavyasoni3377/mediapipe/blob/main/Images/high%20Fowler.jpg)
+
+
+Trendelenburg
+
 ![Pose classification Screenshorts high Fowler ](https://github.com/bhavyasoni3377/mediapipe/blob/main/Images/savedImage.jpg)
 
 
+Reverse Trendelenburg
+
+![Pose classification Screenshorts high Fowler ](https://github.com/bhavyasoni3377/mediapipe/blob/main/Images/rtb.jpg)
 ## Running Tests
 
 To run tests, run the following command
