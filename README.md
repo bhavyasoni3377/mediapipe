@@ -36,8 +36,8 @@ To run this project, you will need to add the following environment variables to
 
 
 ## Screenshots
-
-![Pose classification Screenshorts](https://github.com/bhavyasoni3377/mediapipe/blob/main/Images/savedImage.jpg)
+#high Fowler
+![Pose classification Screenshorts high Fowler ](https://github.com/bhavyasoni3377/mediapipe/blob/main/Images/savedImage.jpg)
 
 
 ## Running Tests
